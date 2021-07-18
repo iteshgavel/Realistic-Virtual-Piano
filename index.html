@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Piano</title>
+
+  <link rel="stylesheet" href="./main.css">
+  
+  <style>
+        #footer {
+        position: fixed;
+        padding: 10px 10px 0px 10px;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+        background: grey;
+    }
+  </style>
+  
+</head>
+
+<body>
+
+  <div align=center style="background-color:grey;" >
+    <header><h1>Realistic Virtual Piano</h1></header>
+  </div>
+  <br><br>
+  
+  <div id="piano">
+    <div id="piano-container" class="keys">
+      <li>
+        <div class="white key" data-key="65" data-note="C">
+        </div>
+        <div class="black key sharp" data-key="87" data-note="C#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="83" data-note="D">
+        </div>
+        <div class="black key sharp" data-key="69" data-note="D#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="68" data-note="E">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="70" data-note="F">
+        </div>
+        <div class="black key sharp" data-key="84" data-note="F#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="71" data-note="G">
+        </div>
+        <div class="black key sharp" data-key="89" data-note="G#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="72" data-note="A">
+        </div>
+        <div class="black key sharp" data-key="85" data-note="A#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="74" data-note="B">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="75" data-note="C">
+        </div>
+        <div class="black key sharp" data-key="79" data-note="C#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="76" data-note="D">
+        </div>
+        <div class="black key sharp" data-key="80" data-note="D#">
+        </div>
+      </li>
+      <li>
+        <div class="white key" data-key="186" data-note="E">
+        </div>
+      </li>
+    </div>
+  </div>
+
+  <section class="audios">
+    <audio data-key="65" src="/sounds/1.wav"></audio>
+    <audio data-key="87" src="/sounds/2.wav"></audio>
+    <audio data-key="83" src="/sounds/3.wav"></audio>
+    <audio data-key="69" src="/sounds/4.wav"></audio>
+    <audio data-key="68" src="/sounds/5.wav"></audio>
+    <audio data-key="70" src="/sounds/6.wav"></audio>
+    <audio data-key="84" src="/sounds/7.wav"></audio>
+    <audio data-key="71" src="/sounds/8.wav"></audio>
+    <audio data-key="89" src="/sounds/9.wav"></audio>
+    <audio data-key="72" src="/sounds/10.wav"></audio>
+    <audio data-key="85" src="/sounds/11.wav"></audio>
+    <audio data-key="74" src="/sounds/12.wav"></audio>
+    <audio data-key="75" src="/sounds/13.wav"></audio>
+    <audio data-key="79" src="/sounds/14.wav"></audio>
+    <audio data-key="76" src="/sounds/15.wav"></audio>
+    <audio data-key="80" src="/sounds/16.wav"></audio>
+    <audio data-key="186" src="/sounds/17.wav"></audio>
+  </section>
+
+  <br>
+
+  <div align=center>
+    <button onclick="window.location.href='./index2.html'"><h3>Change Theme</h3></button>
+  </div>
+
+ <script>
+      const keys = document.querySelectorAll(".key");
+
+    function playNote(event) {
+      event.preventDefault();
+      
+      let audioKeyCode = getKeyCode(event);
+
+      const key = document.querySelector(`.key[data-key="${audioKeyCode}"]`);
+
+      const keyExists = key;
+      
+      if (!keyExists) {
+        return;
+      }
+
+      addPlayingClass(key);
+      playAudio(audioKeyCode);
+    }
+
+    function addPlayingClass(key) {
+      key.classList.add("playing");
+    }
+
+    function removePlayingClass(event) {
+      event.target.classList.remove("playing");
+    }
+
+    function getKeyCode(event) {
+      let keyCode;
+
+      const isKeyboard = event.type === "keydown"
+
+      if(isKeyboard) {
+        keyCode = event.keyCode;
+      } else {
+        keyCode = event.target.dataset.key;
+      }
+
+      return keyCode;
+    }
+
+    function playAudio(audioKeyCode) {
+      const audio = document.querySelector(`audio[data-key="${audioKeyCode}"]`);
+
+      audio.currentTime = 0;
+      audio.play();
+    }
+
+    function registerEvents() {
+      keys.forEach( function(key) {
+        key.addEventListener("click", playNote);
+        key.addEventListener("transitionend", removePlayingClass);
+      });
+      
+      window.addEventListener("keydown", playNote);
+    }
+
+    window.addEventListener("load", registerEvents);
+
+  </script>
+
+  <div id="footer" >
+    <h4>Project Created By - Itesh Kumar Gavel</h4>
+    <marquee>This is the Minor Project by Itesh Kumar Gavel @SmartKnower.</marquee>
+  </div>
+
+</body>
+
+</html>
